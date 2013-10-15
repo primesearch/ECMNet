@@ -1,0 +1,47 @@
+This document does not include master/slave communication protocol.
+
+Getting work:
+   to server:  "FROM <email> <client> <user> <client_version>"
+   to client:  "Connected to server version <server_version>"
+   to server:  "GETWORK <client_version> <gmp-ecm version>"
+   to client:  one or more of:  "Factoring Work for <composite name> <composite value> <decimal length> <factor method> <b1> <curves to do> <string length of composite value>"
+               ending with:     "End of Message"
+   to client:  "Start Greeting"
+               <text from file Greeting.txt>
+               "End Greeting"
+      
+1)  The <string length of composite value> is just strlen(composite value).  This is sent so that the client can verify
+    that it got the entire composite value, which is helpful if the value is very long.  The composite value can be an
+    expression.  This will return the strlen of the expression, not the decimal expansion of the expression. 
+2)  The client does not send verification to the server that it got the workunits.  In the unfortunate case that 
+    happens, the server has the ability to expire work.
+3)  The server can also send "INACTIVE" or "INFO" to the client to indicate that there is no work to be done.
+
+Returning work:
+   to server:  "FROM <email> <client> <user> <client_version>"
+   to client:  "Connected to server version <server_version>"
+   to server:  "Start Return"
+
+               For each composite:
+   to server:  "Abandon Work for <composite name> <factor method> <b1>"
+
+                or
+
+   to server:  "Return Work for <composite name> <composite value> <factor method> <factor is number> <b1> <curves done> <b1 + b2 time> <string length of composite value>"
+
+               If a factor was found, then these are also sent:
+               "Return Factor Event for <composite name> <factor method> <factor step> <b1> <b1 time> <b2> <b2 time> <sigma> <x0>"
+               "Return Factor Event Detail for <composite name> <factor value> <factor type>"
+               "Return Factor Event Detail for <composite name> <factor value> <factor type>"
+
+               This is always sent:
+               "End Return Work for <composite name>"
+   to client:  "Accepted Work for %s"
+
+               When the client has no more work to send
+   to server:  "End of Return Work"
+
+1)  <factor is number> indicates that GMP-ECM determined that the composite was PRP or that B1 was too large to properly factor the number.
+2)  <factor type> indicates PRP, prime, or composite.  This is provided by GMP-ECM.  Whether or not it is recursed as a new composite is
+    based upon a PRP test done by the server (using mpz_probab_prime) and if the server is configured to recurse.  In a master/slave
+    configuration, only the master will recurse the composite factors and the slave will get the new composite the next time it syncs.

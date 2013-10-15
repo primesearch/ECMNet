@@ -1,0 +1,34 @@
+// minb1= is the minimum b1 to use for factoring assignments
+minb1=1000
+
+// maxb1= is the maximum b1 to use for factoring assignments
+maxb1=999999999999
+
+// These parameters are used to override ECM factoring assignments with
+// P-1/P+1 factoring assignments when P-1/P+1 has not been completed
+// for the next B1 value.  For example, if the server chooses an ECM
+// assignment for B1=1e6 and P-1/P+1 curves have not been run for
+// B1=3e6 or B1=11e6, then the server will assign P-1/P+1 for those
+// B1s before assigning ECM curves for B1=1e6.  Both of these default to 0.
+p-1depthoverecm=3
+p+1depthoverecm=3
+
+// The following is a list of B1 values and curve counts for each B1.
+// The 'digits' column is informational only and will be skipped by
+// the code.  Unlike other configuration parameters, these can have
+// embedded spaces to enhance readability.
+// digits        B1     ECM  P+1  P-1 
+b1=  10         300       8    3    1  
+b1=  15        2000      30    3    1
+b1=  20       11000      74    3    1
+b1=  25       50000     221    3    1
+b1=  30      250000     453    3    1
+b1=  35     1000000     984    3    1
+b1=  40     3000000    2541    3    1
+b1=  45    11000000    4949    3    1
+b1=  50    43000000    8266    3    1
+b1=  55   110000000   20158    3    1
+b1=  60   260000000   47173    3    1
+b1=  65   850000000   77666    3    1
+b1=  70  2900000000   96000    3    1
+b1=  75  9900000000  445000    3    1

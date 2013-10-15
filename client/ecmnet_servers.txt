@@ -1,0 +1,18 @@
+Server: 83.143.57.194
+  Port: 8194 
+
+  Paul Leyland's Cunningham server, which has been around longer than any other 
+  ECMNet server
+
+Server: euler.myip.org
+  Port: 34 
+
+  The XYYXF project, a project whose aim is to factor numbers of the form x^y+y^x.  
+  The project's web site is http://xyyxf.at.tut.by
+
+Server: wblipp.dynu.com
+  Port: 8194, 8195
+
+  The ElevenSmooth project which is Searching for factors of the Mersenne number
+  M(3326400) = 2^3326400-1.  The project web-site is at 
+  http://home.earthlink.net/~elevensmooth/ElevenIntro.html

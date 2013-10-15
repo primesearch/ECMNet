@@ -1,0 +1,245 @@
+This history file covers all modifications made to ECMNet Client/Server.
+
+Version 3.0.5:  September 20, 2013 - Patch Release
+     ecmadmin:  Add option 7, ability to send curves from a file.  Each row of the 
+                file must be in the format:
+                   <candidate name> <factor method> <curves> <b1>
+    ecmclient:  Fixed getting maxmem setting from the ini file.
+                Parse out colon in sigma value for GMP-ECM 7.
+    ecmserver:  Add e-mail address to server log when sending/receiving work.
+                Support getting curve counts from ecmadmin.
+                Don't error if SMTP server returns a 252.
+
+
+Version 3.0.4:  September 10, 2013 - Patch Release
+          all:  Change function parameters from char to const char where necessary.
+                Use Socket class from PRPNet.
+                Use PRId64 and PRIu64 instead of %lld and %llu
+
+
+Version 3.0.3:  September 6, 2013 - Patch Release
+          all:  Updated to Visual Studio 2010.
+                Fixed makefile issues.
+    ecmserver:  Merged DBInterface and SQLStatement classes with PRPNet sources.
+
+
+Version 3.0.2:  July 2011 - Patch Release
+    ecmserver:  Re-wrote master/slave processing because original code didn't
+                handle multiple slaves well and could have had issues due to
+                the multi-threading of the server.
+                If you had installed 3.0.1 or 3.0.0, you need to run the
+                upgrade_301_to_302.sql script and create the MasterCompositeSlaveSync
+                table whose script is in the appropriate create_tables.sql file.
+
+
+Version 3.0.1:  May 2011 - Patch Release
+          all:  Added 64-bit Windows configurations
+    ecmserver:  Now supports dsn based ODBC connections.
+                Added version of create_tables script that works on PostgreSQL.
+
+
+Version 3.0.0:  May 2011 - New Release
+          all:  New socket protocol.
+                Removed sbfactor support.
+
+    ecmserver:  Completely re-architected to support MySQL and multi-threading.
+                Read the readme_upgrade.txt file to learn how to upgrade.
+                3.x server compatible with 2.x clients.
+                Use GMP-ECM expression evaluator for computing decimal lengths of composites.
+                Master/slave between 3.x servers works, but a 3.x server cannot
+                communicate with a 2.x server.  This is unlikely to be fixed because
+                when 3.x and 2.x are mixed, then only one side is using database
+                transactions.  Also, the 3.x server collects a lot more information than
+                the 2.x server has available to it.
+                Re-read the ini file once every 256 seconds to pick up changes in debuglevel.           
+                Collect more statistics and report them to the server, such as total time
+                spent doing factoring work in addition to B2 and individual B1/B2 times
+                for each factor found.
+                server_stats.html now lists current B1 rather than all factoring work done.
+                Replaced server_stats.html with composites_summary.html.
+                Added composites_work.html, which has displays factoring work done on each
+                composite that is active.
+                Added master_summary.html, which is a summary of all master composites.
+                Added factor_summary.html, which is summary of all factors.
+                Added user_stats.html.
+
+    ecmclient:  New format for work_xx.save files.
+                Can run muptiple copies of the client from a single folder using the
+                -id option.  This overrides clientid in the ecmclient.ini file.
+                Re-read the ini file after every curve to pick up changes in debuglevel.
+                Add startoption, stopoption, and stopasaption to ini file.
+                Collect more statistics and report them to the server, such as total time
+                spent doing factoring work in addition to B2 and individual B1/B2 times
+                for each factor found.
+
+
+Version 2.7.3:  October 2006
+    ecmserver:  Fixed an array out of bounds error in Candidate.cpp
+                when P+1/P-1 depth over ECM extended beyond
+                table of B1 values from ecmserver.b1 file.
+                Add support for ecmserver.ini file that contains
+                expressions only (which in turn will build a
+                valid ecmserver.ini file with dummy entry names)
+
+Version 2.7.2:  June 2006
+    ecmclient:  Made a change to FindNextServerForWork in case which
+                is used when a server is not available.  It will
+                increase the probability that a server with a lower
+                percentage will get work.
+    ecmserver:  Added SplitAcrossLines() prototype to Candidate.h
+                Fixed BuildHTMLTable as P+1/P-1 were reversed.
+          all:  Changed portID to a short from an int to eliminate
+                warnings.
+          all:  Fixed makefile so that it links on Solaris
+
+Version 2.7.1:  February 2006
+    ecmserver:  Fixed a bug in Mail.cpp where mail would not be sent to
+                other recipients as specified on the destid= lines
+                in ecmserver.cfg
+                Fixed a bug in Candidate.cpp where factors that had 
+                already been found would be logged when the server would
+                be restarted.
+                Add factor/co-factor lengths in text of e-mail.
+                Indicate in e-mail if the factor was already known.
+                In some cases an e-mail would be sent if a new factor
+                could not be added.  This has been fixed.
+                Added support to build HTML output from the ecmserver.ini
+                when calling with "GET" via a browser.
+                Fixed a bug where a new Candidate from the master server
+                would not set the server type.
+        other:  Updated ecmserver.b1.gmpecm to use GMP-ECM curve counts.
+                
+Version 2.7.0:  December 2005
+    ecmserver:  Log factors found by a slave to Factors.log.
+                Fix bug when logging message if work could not be sent
+                to the calling client.
+          all:  Add BUFFER_SIZE to defs.h to allow easy configuration for
+                message sizes.
+                Exit in Socket.cpp if the message from the client is
+                longer than BUFFER_SIZE to prevent a possible segfault.
+
+Version 2.6.4:  July 2005
+    ecmserver:  Fix an issue with master/slave communication where a factor
+                cannot be sent between them.
+
+Version 2.6.3:  June 2005
+    ecmserver - Fix a typo from 2.6.2 release.
+
+Version 2.6.2:  June 2005
+    ecmserver - Accept work from a client if the candidate is not found,
+                but do nothing with it so that the client can get more work.
+
+Version 2.6.1:  May 2005
+    ecmserver - Fixed an issue that caused e-mail to not get sent when first
+                factor is found by the server.
+
+Version 2.6.0:  April 2005
+    ecmclient - Added debuglevel configuration option along with -debuglevel
+                command line parameter 
+                Send client version to server in RETURNWORK and RETURNFACTOR
+                Get version of GMP-ECM before loading work_xxx.save so that
+                next GetWork can send version to server.
+    ecmserver - Added debuglevel configuration option along with -debuglevel
+                command line parameter 
+                Detect error condition on RETURNWORK and RETURNFACTOR when
+                the ECMname is not returned in the message.
+                Modify CompareB1() to compare curves left if B1s are the same.
+                Handle condition when versions are not sent by client on
+                GETWORK to prevent segfault.
+                If the server is a slave and the ecmserver.ini is missing or
+                empty, then sync immediately with the master server so that
+                it can be populated.  As the sync functionality has changed
+                both master and slave servers have to be updated at the
+                same time.
+
+Version 2.5.8:  March 2005
+    ecmclient - Fix a bug in Work.cpp (introduced in this release) that
+                causes the client to rarely (if ever) find a factor.
+
+Version 2.5.7:  March 2005
+    ecmclient - Fix a formatting bug in Work.Load() that causes a crash when 
+                the save file and server/port do not match configuration.
+                Change message "Did xxx curves" to "Did xxx of xxx curves".
+                Do not allow embedded ':' or ' ' in machine ID so that
+                server doesn't parse it incorrectly.
+    ecmserver - Fix problem that causes ADMIN_NEW to be rejected.
+                Change atol to atof when getting g_MaxB1 from ecmserver.b1.
+                Address potential buffer overflow by limiting FROM message
+                to 200 bytes.
+                Use either ':' or ' ' as a terminator for the machine ID
+                as those characters cause problems later in the code.
+                Fix a potential issue in the server selecting the wrong
+                B1 or in sending 0 curves to the client for ECM factoring.
+                Fix an issue in CompareWork and CompareDifficulty where
+                conversion from double to long sometimes results with the
+                long having the wrong sign.
+                Add more debug information in assignment selection.
+    ecmadmin  - Include <signal.h> on UNIX systems.
+                Fixed the ecmadmin.dsp project for Visual C++ so that it
+                builds correctly.
+
+Version 2.5.6:  January 2005 (general release)
+                Updated documentation.
+
+Version 2.5.5:  November 2004 (beta)
+    ecmclient - Fix a bug in StripCRLF where order of && and || are not
+                consistent in various compilers.
+    ecmserver - Get candidate selection to work correctly.
+
+Version 2.5.4:  November 2004 (beta)
+    ecmserver - Fix memory leak in ReturnWork and ReturnFactor.
+                Add machine ID to factor_t structure.
+                Fix segfault caused by double free in SaveCandidates.
+    ecmclient - Fix memory leak that causes segfault in ExtractFactorGMP.
+
+Version 2.5.3:  October 2004 (beta)
+    ecmserver - Return an error if the server cannot assign work for the client.
+    ecmclient - Fix an infinite loop caused when factoring returns the input
+                number.
+
+Version 2.5.2:  October 2004 (beta)
+    ecmserver - Fixed issue where duplicate factors were not being flagged
+                Calculate work done in constructor of Candidate.cpp as
+                the new candidate might have been created via recursion
+    ecmclient - Return RC_FAILURE from FindAnyIncomplete work to avoid loop
+
+Version 2.5.1:  October 2004 (beta)
+    all       - Modified code to eliminate all compiler warnings.
+
+    ecmserver - Fixed issue where factor method was not returned to the client.
+                Fixed sorting for B1 sort type.
+                Added total work as secondary sort parameter when B1 or length
+                are the same.
+
+Version 2.5.0:  April 2004 (alpha)
+    ecmadmin  - Added the ability to submit a factor.
+                Removed functionality that was only needed by old client.
+                Require a password for all server functions.
+
+    ecmclient - Removed user statistics, i.e. the .crv and .daily files will
+                no longer be created or updated.
+                Removed admin functions and put them into ecmadmin.
+                Support to send client version to server.
+                Support to receive server version from server.
+                Support to do P+1/P-1 factoring as determined by the server.
+                Added signal handling to reduce the possibility of the client
+                crashing the server if the user tries to quit the client while a
+                socket is open with the server.
+                Support for communication with multiple servers.
+                Added support to use SBFACTOR as the factoring program.
+
+    ecmserver - Support to send/receive client version.
+                Rewrote slave/master communication.
+                Verify factors when they are submitted.
+                B1 information is now read from ecmserver.b1 file instead
+                of being hard-coded.
+                Assign P+1/P-1 factoring if new ecmclient is being used.
+                New recurse flag for each candidate.
+                New factoring selection strategies.
+                Require a password for all admin functions.
+                Require a password for any slave/master communication.
+                Added signal handling to reduce the possibility of the client
+                crashing the server if the user tries to quit the client while a
+                socket is open with the server.
+                Add new servertype parameter so that server can assign work
+                for SBFACTOR. 

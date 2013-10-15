@@ -1,0 +1,9 @@
+This is a list of future features to be considered for ECMNet.
+
+1)  Support msieve (in the client) to factor composites under a certain length.
+
+As much as some people might like to see it, the client will not support GGNFS
+in the forseeable future because it requires a certain amount of configuration.
+
+If you have anything else you would like to see added, please contact me at
+rogue@wi.rr.com.
