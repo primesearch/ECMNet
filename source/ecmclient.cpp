@@ -491,7 +491,7 @@ void  ProcessINIFile(const char *iniFile)
       else if (!memcmp(line, "machineid=", 10))
          strcpy(g_MachineID, line+10);
       else if (!memcmp(line, "instanceid=", 11))
-         strcpy(g_InstanceID, line+110);
+         strcpy(g_InstanceID, line+11);
       else if (!memcmp(line, "server=", 7))
          g_WorkCount++;
       else if (!memcmp(line, "gmpecmexe=", 10))
