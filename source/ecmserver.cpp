@@ -224,7 +224,7 @@ int   main(int argc, char *argv[])
    serverThread->StartThread(gp_Globals);
 
    gp_Globals->p_Log->LogMessage("ECMnet Server application v%s started.", ECMNET_VERSION);
-   gp_Globals->p_Log->LogMessage("Please contact Mark Rodenkirch at rogue@wi.rr.com for support");
+   gp_Globals->p_Log->LogMessage("Please contact Mark Rodenkirch at rogumgr@gmail.com for support");
    gp_Globals->p_Log->LogMessage("Waiting for connections on port %ld", gp_Globals->i_PortID);
 
    timerDBInterface = new DBInterface(gp_Globals->p_Log, "database.ini");

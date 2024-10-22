@@ -25,7 +25,7 @@ You must follow these steps to get a clean upgrade from 2.x.
     verification that the upgrade was successful.
 
 7)  If not successful, that is most likely due to a code bug, so contact me at
-    rogue@wi.rr.com if that happens.
+    roguemgr@gmail.com if that happens.
 
 8)  If successful, let 'er rip.
 
