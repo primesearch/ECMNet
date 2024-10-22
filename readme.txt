@@ -74,5 +74,5 @@ Where can I get GMP-ECM?
     At http://www.loria.fr/~zimmerma/records/ecmnet.html
 
 Who are you and how do I contact you if I find or bug or have any questions?
-    My name is Mark Rodenkirch.  I can be contacted at rogue@wi.rr.com.
+    My name is Mark Rodenkirch.  I can be contacted at roguemgr@gmail.com.
 

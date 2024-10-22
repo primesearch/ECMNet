@@ -6,4 +6,4 @@ As much as some people might like to see it, the client will not support GGNFS
 in the forseeable future because it requires a certain amount of configuration.
 
 If you have anything else you would like to see added, please contact me at
-rogue@wi.rr.com.
+roguemgr@gmail.com.
